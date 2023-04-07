@@ -1,0 +1,48 @@
+Resources:
+  CharadesServerlessDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+      Description: Role to enable CloudFormation to deploy resources
+      Policies:
+        - PolicyName: LambdaDeploymentPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:*'
+                Resource: '*'
+        - PolicyName: DynamoDbPolicy
+          PolcyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Actions:
+                  - 'dynamodb:*'
+                Resource: '*'
+      Tags:
+        Project:
+        - Key: name
+          Value: charades-serverless
+
+  GameInitialiserFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+      Description: Role to enable CloudFormation to deploy resources
+      Policies:
+        - PolicyName: DynamoDBPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:BatchwriteItem'
+                  - 'dynamodb:DescribeTable'
+                  - 'dynamodb:GetItem'
+                  - 'dynamodb:GetRecords'
+                Resource: '*'
+    
+  TurnProcessorFunctionRole:
+  GameStategetterFunctionRole:
